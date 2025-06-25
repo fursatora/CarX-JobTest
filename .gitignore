@@ -3,3 +3,6 @@ UserSettings
 Logs
 Library
 Temp
+*.csproj
+.idea
+obj
