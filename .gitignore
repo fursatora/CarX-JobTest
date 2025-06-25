@@ -6,3 +6,5 @@ Temp
 *.csproj
 .idea
 obj
+.DS_Store
+*.user
