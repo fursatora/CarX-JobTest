@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 19828214}
   - component: {fileID: 19960812}
   m_Layer: 0
-  m_Name: MistBlue
+  m_Name: Mist
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
