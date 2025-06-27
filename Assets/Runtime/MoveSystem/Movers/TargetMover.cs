@@ -10,7 +10,7 @@ namespace Runtime.MoveSystem.MoveMethods
     {
         private readonly IMoveTrajectory _moveTrajectory;
         private readonly ITargetReceiver _targetReceiver;
-        
+
         public TargetMover(IMoveTrajectory moveTrajectory, ITargetReceiver targetReceiver)
         {
             _moveTrajectory = moveTrajectory;
@@ -28,21 +28,19 @@ namespace Runtime.MoveSystem.MoveMethods
                     await PauseMoveAsync(token);
                     continue;
                 }
-                
+
                 var targetProvider = _targetReceiver.GetTarget();
-                
+
                 if (targetProvider == null)
                 {
                     await UniTask.Yield(PlayerLoopTiming.FixedUpdate, token);
                     continue;
                 }
-                
+
                 var targetDistance = targetProvider.Position - transform.position;
-                
+
                 if (targetDistance.sqrMagnitude > Mathf.Epsilon)
-                {
                     transform.rotation = Quaternion.LookRotation(targetDistance.normalized);
-                }
 
                 _moveTrajectory.MoveStep(transform, Time.deltaTime);
 

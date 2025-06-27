@@ -25,7 +25,7 @@ namespace Runtime.MoveSystem.MoveTrajectories
                     var s = (SinusTrajectorySettingsSO)settings;
                     return new SinusTrajectory(s.Speed, s.Amplitude, s.Frequency);
                 }
-            },
+            }
         };
 
         public IMoveTrajectory GetMethodBySettings(BaseTrajectorySettings settings)

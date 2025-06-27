@@ -5,11 +5,11 @@ namespace Runtime.MoveSystem.MoveTrajectories
 {
     public class SinusTrajectory : IMoveTrajectory
     {
-        private float _speed;
-        private float _amplitude;
-        private float _frequency;
+        private readonly float _amplitude;
+        private readonly float _frequency;
         private float _localTime;
         private float _prevOffset;
+        private readonly float _speed;
 
 
         public SinusTrajectory(float speed, float amplitude, float frequency)
@@ -25,8 +25,8 @@ namespace Runtime.MoveSystem.MoveTrajectories
 
             transform.position += transform.forward * (_speed * deltaTime);
 
-            float currentOffset = Mathf.Sin(_localTime * _frequency) * _amplitude;
-            float deltaOffset = currentOffset - _prevOffset;
+            var currentOffset = Mathf.Sin(_localTime * _frequency) * _amplitude;
+            var deltaOffset = currentOffset - _prevOffset;
 
             transform.position += transform.up * deltaOffset;
 
