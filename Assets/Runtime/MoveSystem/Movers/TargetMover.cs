@@ -8,13 +8,13 @@ namespace Runtime.MoveSystem.MoveMethods
 {
     public class TargetMover<TMovedGameObject> : IMover<TMovedGameObject> where TMovedGameObject : Object, IMovingObject
     {
-        readonly IMoveTrajectory _moveTrajectory;
-        readonly ITargetProvider _targetProvider;
-
-        public TargetMover(IMoveTrajectory moveTrajectory, ITargetProvider targetProvider)
+        private readonly IMoveTrajectory _moveTrajectory;
+        private readonly ITargetReceiver _targetReceiver;
+        
+        public TargetMover(IMoveTrajectory moveTrajectory, ITargetReceiver targetReceiver)
         {
             _moveTrajectory = moveTrajectory;
-            _targetProvider = targetProvider;
+            _targetReceiver = targetReceiver;
         }
 
         public async UniTask StartMoveAsync(TMovedGameObject obj, CancellationToken token)
@@ -23,7 +23,22 @@ namespace Runtime.MoveSystem.MoveMethods
 
             while (!token.IsCancellationRequested)
             {
-                var targetDistance = _targetProvider.Position - transform.position;
+                if (_targetReceiver.IsReached)
+                {
+                    await PauseMoveAsync(token);
+                    continue;
+                }
+                
+                var targetProvider = _targetReceiver.GetTarget();
+                
+                if (targetProvider == null)
+                {
+                    await UniTask.Yield(PlayerLoopTiming.FixedUpdate, token);
+                    continue;
+                }
+                
+                var targetDistance = targetProvider.Position - transform.position;
+                
                 if (targetDistance.sqrMagnitude > Mathf.Epsilon)
                 {
                     transform.rotation = Quaternion.LookRotation(targetDistance.normalized);
@@ -31,7 +46,7 @@ namespace Runtime.MoveSystem.MoveMethods
 
                 _moveTrajectory.MoveStep(transform, Time.deltaTime);
 
-                await UniTask.Yield(PlayerLoopTiming.FixedUpdate, token);
+                await UniTask.Yield(PlayerLoopTiming.Update, token);
             }
         }
 
@@ -39,6 +54,12 @@ namespace Runtime.MoveSystem.MoveMethods
         {
             tokenSource.Cancel();
             tokenSource.Dispose();
+        }
+
+        private async UniTask PauseMoveAsync(CancellationToken token)
+        {
+            while (_targetReceiver.IsReached && !token.IsCancellationRequested)
+                await UniTask.Yield(PlayerLoopTiming.Update, token);
         }
     }
 }

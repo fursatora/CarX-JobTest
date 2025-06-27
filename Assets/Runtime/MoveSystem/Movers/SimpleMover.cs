@@ -21,7 +21,7 @@ namespace Runtime.MoveSystem.MoveMethods
             while (!token.IsCancellationRequested)
             {
                 _moveTrajectory.MoveStep(transform, Time.deltaTime);
-                await UniTask.Yield(PlayerLoopTiming.FixedUpdate, token);
+                await UniTask.Yield(PlayerLoopTiming.Update, token);
             }
         }
 
