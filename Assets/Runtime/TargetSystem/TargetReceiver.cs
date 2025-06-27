@@ -12,14 +12,10 @@ namespace Runtime.TargetSystem
         [SerializeField] private float reachedDistance;
         [SerializeField] private float trackingCheckTime;
 
-        [Inject] ITargetSelector _selector;
-
-        public event Action<ITargetReceiver> OnTargetReached;
-        public bool IsReached => _isReached;
+        [Inject] private ITargetSelector _selector;
 
         private ITargetProvider _target;
         private CancellationTokenSource _tokenSource;
-        private bool _isReached = false;
 
         private void OnEnable()
         {
@@ -29,8 +25,11 @@ namespace Runtime.TargetSystem
 
         private void OnDisable()
         {
-           StopTrack();
+            StopTrack();
         }
+
+        public event Action<ITargetReceiver> OnTargetReached;
+        public bool IsReached { get; private set; }
 
         public ITargetProvider GetTarget()
         {
@@ -52,16 +51,16 @@ namespace Runtime.TargetSystem
                 if (_target != null)
                 {
                     var currentDistance = Vector3.Distance(transform.position, _target.Position);
-                    
-                    if (_isReached == false && currentDistance <= reachedDistance)
+
+                    if (IsReached == false && currentDistance <= reachedDistance)
                     {
-                        _isReached = true;
+                        IsReached = true;
                         OnTargetReached?.Invoke(this);
                         _target = null;
                     }
-                    else if (_isReached && currentDistance > reachedDistance)
+                    else if (IsReached && currentDistance > reachedDistance)
                     {
-                        _isReached = false;
+                        IsReached = false;
                     }
                 }
 

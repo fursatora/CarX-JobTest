@@ -7,15 +7,15 @@ namespace Runtime.TargetSystem
     public class TargetProvider : MonoBehaviour, ITargetProvider
     {
         public Vector3 Position => transform.position;
+        
+        [Inject] private ITargetSelector _selector;
 
-        [Inject] ITargetSelector _selector;
-
-        void OnEnable()
+        private void OnEnable()
         {
             _selector.Register(this);
         }
 
-        void OnDisable()
+        private void OnDisable()
         {
             _selector.Unregister(this);
         }
