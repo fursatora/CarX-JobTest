@@ -5,7 +5,7 @@ using Runtime.MoveSystem.MoveSettings;
 
 namespace Runtime.MoveSystem.MoveTrajectories
 {
-    public class ScriptableTrajectoriesFactory
+    public static class ScriptableTrajectoriesFactory
     {
         private static readonly Dictionary<Type, Func<BaseTrajectorySettings, IMoveTrajectory>> _builders = new()
         {
@@ -28,7 +28,7 @@ namespace Runtime.MoveSystem.MoveTrajectories
             }
         };
 
-        public IMoveTrajectory GetMethodBySettings(BaseTrajectorySettings settings)
+        public static IMoveTrajectory GetMethodBySettings(BaseTrajectorySettings settings)
         {
             if (_builders.TryGetValue(settings.GetType(), out var builder))
                 return builder(settings);

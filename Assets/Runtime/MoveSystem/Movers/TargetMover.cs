@@ -39,8 +39,8 @@ namespace Runtime.MoveSystem.MoveMethods
 
                 var targetDistance = targetProvider.Position - transform.position;
 
-                if (targetDistance.sqrMagnitude > Mathf.Epsilon)
-                    transform.rotation = Quaternion.LookRotation(targetDistance.normalized);
+                if (targetDistance.sqrMagnitude > Mathf.Epsilon && targetDistance != Vector3.zero)
+                    transform.rotation = Quaternion.LookRotation(targetDistance);
 
                 _moveTrajectory.MoveStep(transform, Time.deltaTime);
 

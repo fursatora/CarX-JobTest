@@ -6,8 +6,6 @@ namespace Module.Pooling.GameObjectPool
 {
     public class GameObjectPool<TPoolingObject> : ObjectPool<TPoolingObject> where TPoolingObject : IPoolingGameObject
     {
-        private const string PoolContainerName = "PoolContainer";
-
         private readonly Transform _poolContainer;
         private readonly Transform _contentContainer;
 

@@ -9,8 +9,8 @@ namespace Runtime.TargetSystem.Installer
     {
         public void Install(IContainerBuilder builder)
         {
-            builder.Register<TargetSelector>(Lifetime.Singleton)
-                .As<ITargetSelector>();
+            //builder.Register<TargetSelector>(Lifetime.Singleton)
+                //.As<ITargetSelector>();
         }
     }
 }

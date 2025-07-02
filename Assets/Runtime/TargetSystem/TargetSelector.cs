@@ -5,23 +5,23 @@ using UnityEngine;
 
 namespace Runtime.TargetSystem
 {
-    public class TargetSelector : ITargetSelector
+    public static class TargetSelector 
     {
         private static readonly List<ITargetProvider> _providers = new();
 
-        public void Register(ITargetProvider provider)
+        public static void Register(ITargetProvider provider)
         {
             if (!_providers.Contains(provider))
                 _providers.Add(provider);
         }
 
-        public void Unregister(ITargetProvider provider)
+        public static void Unregister(ITargetProvider provider)
         {
             if (_providers.Contains(provider))
                 _providers.Remove(provider);
         }
 
-        public ITargetProvider GetNearest(Vector3 position)
+        public static ITargetProvider GetNearest(Vector3 position)
         {
             return _providers
                 .OrderBy(p => Vector3.Distance(position, p.Position))

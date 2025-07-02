@@ -13,12 +13,9 @@ namespace Runtime.GamePlay.MoveSystem
     [RequireComponent(typeof(TargetReceiver))]
     public class TargetMoveController : MonoBehaviour, IMovingObject
     {
-        [SerializeField] private BaseTrajectorySettings trajectorySO;
-
-        [Inject] private ScriptableTrajectoriesFactory _factory;
-
+        [SerializeField] private BaseTrajectorySettings moveSettings;
+        
         private TargetReceiver _receiver;
-        private IMoveTrajectory _trajectory;
         private IMover<TargetMoveController> _mover;
         private CancellationTokenSource _cts;
 
@@ -26,9 +23,9 @@ namespace Runtime.GamePlay.MoveSystem
 
         void Awake()
         {
+            var trajectory = ScriptableTrajectoriesFactory.GetMethodBySettings(moveSettings);
             _receiver = GetComponent<TargetReceiver>();
-            _trajectory = _factory.GetMethodBySettings(trajectorySO);
-            _mover = new TargetMover<TargetMoveController>(_trajectory, _receiver);
+            _mover = new TargetMover<TargetMoveController>(trajectory, _receiver);
         }
 
         void OnEnable()

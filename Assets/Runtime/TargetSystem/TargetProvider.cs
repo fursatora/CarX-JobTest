@@ -8,16 +8,15 @@ namespace Runtime.TargetSystem
     {
         public Vector3 Position => transform.position;
         
-        [Inject] private ITargetSelector _selector;
 
         private void OnEnable()
         {
-            _selector.Register(this);
+            TargetSelector.Register(this);
         }
 
         private void OnDisable()
         {
-            _selector.Unregister(this);
+            TargetSelector.Unregister(this);
         }
     }
 }

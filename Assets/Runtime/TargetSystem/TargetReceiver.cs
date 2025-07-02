@@ -3,7 +3,6 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using Runtime.TargetSystem.Contracts;
 using UnityEngine;
-using VContainer;
 
 namespace Runtime.TargetSystem
 {
@@ -11,11 +10,10 @@ namespace Runtime.TargetSystem
     {
         [SerializeField] private float reachedDistance;
         [SerializeField] private float trackingCheckTime;
-
-        [Inject] private ITargetSelector _selector;
-
+        
         private ITargetProvider _target;
         private CancellationTokenSource _tokenSource;
+        
 
         private void OnEnable()
         {
@@ -39,14 +37,14 @@ namespace Runtime.TargetSystem
         private void SetTarget()
         {
             _tokenSource = new CancellationTokenSource();
-            _target = _selector.GetNearest(transform.position);
+            _target = TargetSelector.GetNearest(transform.position);
         }
 
         private async UniTask StartTrack(CancellationToken token)
         {
             while (!token.IsCancellationRequested)
             {
-                _target = _selector.GetNearest(transform.position);
+                _target = TargetSelector.GetNearest(transform.position);
 
                 if (_target != null)
                 {

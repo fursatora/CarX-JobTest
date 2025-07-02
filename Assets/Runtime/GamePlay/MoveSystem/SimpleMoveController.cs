@@ -12,8 +12,6 @@ namespace Runtime.GamePlay.MoveSystem
     public class SimpleMoveController : MonoBehaviour, IMovingObject
     {
         [SerializeField] private BaseTrajectorySettings moveSettings;
-
-        [Inject] private ScriptableTrajectoriesFactory _trajectoryFactory;
         
         public Transform Transform => transform;
 
@@ -22,7 +20,7 @@ namespace Runtime.GamePlay.MoveSystem
         
         private void Awake()
         {
-            var trajectory = _trajectoryFactory.GetMethodBySettings(moveSettings);
+            var trajectory = ScriptableTrajectoriesFactory.GetMethodBySettings(moveSettings);
             _mover = new SimpleMover<SimpleMoveController>(trajectory);
         }
 

@@ -8,8 +8,8 @@ namespace Runtime.MoveSystem.MoveTrajectories.Installer
     {
         public void Install(IContainerBuilder builder)
         {
-            builder.Register<ScriptableTrajectoriesFactory>(Lifetime.Singleton)
-                .AsSelf();
+           // builder.Register<ScriptableTrajectoriesFactory>(Lifetime.Singleton)
+                //.AsSelf();
         }
     }
 }
