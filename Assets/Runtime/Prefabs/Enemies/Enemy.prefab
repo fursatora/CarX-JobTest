@@ -110,7 +110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 663d7ab81c7a4b8e927656587b490e44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSettings: {fileID: 11400000, guid: 0dd4516191e7749fea744657ed053701, type: 2}
+  moveSettings: {fileID: 11400000, guid: 9f4db00beea5249e6aca5486646256a8, type: 2}
 --- !u!114 &2428223305466455841
 MonoBehaviour:
   m_ObjectHideFlags: 0
