@@ -10,6 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8e2815e92e7b4761b749221d84af6193, type: 3}
-  m_Name: LinearMoveSettingsSO
+  m_Name: LinearMove-4
   m_EditorClassIdentifier: 
   speed: 4
