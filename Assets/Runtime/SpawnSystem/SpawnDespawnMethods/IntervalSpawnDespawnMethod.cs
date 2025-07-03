@@ -16,8 +16,8 @@ namespace Runtime.SpawnSystem
             float despawnInterval)
         {
             _spawner = spawner;
-            _spawnInterval = TimeSpan.FromMilliseconds(spawnInterval * 1000);
-            _despawnInterval = TimeSpan.FromMilliseconds(despawnInterval * 1000);
+            _spawnInterval = TimeSpan.FromSeconds(spawnInterval);
+            _despawnInterval = TimeSpan.FromSeconds(despawnInterval);
         }
 
         public async UniTask StartWorkingAsync(ISpawner<TSpawnedGameObject> spawner, CancellationToken token)
@@ -25,19 +25,19 @@ namespace Runtime.SpawnSystem
             while (!token.IsCancellationRequested)
             {
                 var obj = _spawner.Spawn();
-                
+
                 DespawnLater(obj, token).Forget();
-                
+
                 await UniTask.Delay(_spawnInterval, cancellationToken: token);
             }
         }
 
         private async UniTask DespawnLater(TSpawnedGameObject obj, CancellationToken token)
         {
-            while (!token.IsCancellationRequested)
+            await UniTask.Delay(_despawnInterval, cancellationToken: token);
+            if (!token.IsCancellationRequested)
             {
-                await UniTask.Delay(_despawnInterval, cancellationToken: token);
-                _spawner.Despawn(obj);
+                 _spawner.Despawn(obj);
             }
         }
     }
