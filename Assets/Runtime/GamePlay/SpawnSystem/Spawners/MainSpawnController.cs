@@ -11,6 +11,7 @@ namespace Runtime.GamePlay.SpawnSystem
     {
         //[SerializeField] private float spawnInterval;
         [SerializeField] private MainSpawnedObject spawnedObjectPrefab;
+        [SerializeField] private Transform spawnPoint;
         [SerializeField] private Transform poolContainer;
         [SerializeField] private Transform contentContainer;
 
@@ -23,6 +24,11 @@ namespace Runtime.GamePlay.SpawnSystem
 
         private void Awake()
         {
+            if (spawnPoint == null)
+            {
+                spawnPoint = transform;
+            }
+            
             Initialize();
         }
 
@@ -40,7 +46,7 @@ namespace Runtime.GamePlay.SpawnSystem
         {
             var listener = new GameObjectPoolListener<MainSpawnedObject>(spawnedObjectPrefab, contentContainer);
             _pool = new GameObjectPool<MainSpawnedObject>(listener, poolContainer, contentContainer);
-            _spawner = new PoolSpawner<MainSpawnedObject>(_pool);
+            _spawner = new PoolSpawner<MainSpawnedObject>(_pool, spawnPoint);
             _spawnMethod = CreateSpawnMethod();
         }
         
